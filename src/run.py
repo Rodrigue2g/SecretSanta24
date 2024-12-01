@@ -30,12 +30,12 @@ people = [
     {"name": "Dalia", "image": "dalia.png", "nbr": 2, "mail": "dalia.ghosn@epfl.ch"},
     {"name": "Thea", "image": "thea.png", "nbr": 3, "mail": "thea.gluck@babelec.ch"},
     {"name": "Zac", "image": "zac.png", "nbr": 2, "mail": "zacharie.bourlard@epfl.ch"},
-    {"name": "Anna", "image": "anna.png", "nbr": 4, "mail": "anna.vandermersch@babelec.ch"}
+    {"name": "Anna", "image": "anna.png", "nbr": 4, "mail": "anna.vandermersch@balelec.ch"}
 ]
 
 def tirageSS():
     try:
-        assigned_people = people[:] 
+        assigned_people = people[:]
         while True:
             random.shuffle(assigned_people) 
             if all(person["name"] != assigned["name"] for person, assigned in zip(people, assigned_people)):
