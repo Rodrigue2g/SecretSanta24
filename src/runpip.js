@@ -2,7 +2,7 @@ import { spawn } from "child_process";
 
 export default function runPythonScript(inputData) {
   return new Promise((resolve, reject) => {
-    const pythonProcess = spawn("python3", ["run.py"]);
+    const pythonProcess = spawn("python3", ["./src/run.py"]);
 
     // Pass data to the Python script
     pythonProcess.stdin.write(JSON.stringify(inputData));

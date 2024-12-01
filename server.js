@@ -22,8 +22,8 @@ import useragent from 'express-useragent';
 import helmet from 'helmet';
 import fs from 'fs';
 import path from 'path';
-import { smtp, SmtpTemplates } from './smtp.js';
-import runPythonScript from './runpip.js';
+import { smtp, SmtpTemplates } from './src/smtp.js';
+import runPythonScript from './src/runpip.js';
 // import csrf from 'csurf';
 
 const {

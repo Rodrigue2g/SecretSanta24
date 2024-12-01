@@ -58,7 +58,7 @@ export const smtpServiceFactory = (cfg) => {
   const isSmtpOn = Boolean(cfg.host);
 
   const sendMail = async ({ substitutions, recipients, template, subjectLine }) => {
-    const html = await fs.readFile(path.resolve(__dirname, "./templates/", template), "utf8");
+    const html = await fs.readFile(path.resolve(__dirname, "../templates/", template), "utf8");
     const temp = handlebars.compile(html);
     const htmlToSend = temp(substitutions);
 
