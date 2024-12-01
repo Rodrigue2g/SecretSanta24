@@ -120,23 +120,17 @@ try {
             }    
             console.log(results);
             for (const result of results) {
-                const { email, name, img, nbr } = result;
+                const { email, name, img, nbr, assigned_name } = result;
                 await smtp.sendMail({
                     template: SmtpTemplates.SecretSanta,
                     subjectLine: "Tirage Secret Santa 2024",
                     recipients: [email],
                     substitutions: {
                         name: name,
-                        img: img || "unknown",
+                        recipient_name: assigned_name,
+                        recipient_image: img || "unknown",
                         nbr: nbr || 1,
-                    },
-                    attachments: [
-                        {
-                            filename: img,
-                            path: `./images/${img}`,
-                            cid: 'recipient_image'
-                        }
-                    ]
+                    }
                 });
             }
             return res.status(200).send('OK');
