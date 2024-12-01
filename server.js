@@ -114,11 +114,12 @@ try {
     app.get('/tirage', async function (req, res) {
         try {
             const results = await runPythonScript("");
-            console.log(results);
+            // const data = await fs.readFileSync(path.resolve("./assignments.json"), 'utf-8');
+            // const results = JSON.parse(data);
+
             if (!results || !Array.isArray(results)) {
                 throw new Error("Invalid results from Python script");
             }    
-            console.log(results);
             for (const result of results) {
                 const { email, name, img, nbr, assigned_name } = result;
                 await smtp.sendMail({
@@ -133,7 +134,7 @@ try {
                     }
                 });
             }
-            return res.status(200).send('OK');
+            return res.status(200).send('Tirage SS 2024 effectué');
         } catch(e) {
             console.log("An error has occured" + e);
             return res.status(400).send("An error has occured" + e);
