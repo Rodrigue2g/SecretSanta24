@@ -104,7 +104,22 @@
             display: inline-block;
         }
         .email-button:hover {
-            background-color: #ff6969;
+            background-color: #565555;
+        }
+        .help-btn{
+            margin-top: 20px;
+            background-color: #565555;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .help-btn:hover {
+            background-color: #cb0000;
         }
     </style>
 </head>
@@ -116,10 +131,8 @@
     <a href="/email" class="email-button">Email</a>
 
     <div class="message">Can't find your code?</div>
-    <a href="/https://ironport.epfl.ch" class="email-button">Help</a>
-    <div class="message">Can't find your code?</div>
-    <p>Just add <strong>ss24.sustu@gmail.com</strong> & <strong>sustu.ss24@gmail.com</strong> to your email safe-list</p>
-    
+    <div class="message"><p>Just add <strong>ss24.sustu@gmail.com</strong> & <strong>sustu.ss24@gmail.com</strong> to your email safe-list</p></div>    
+    <a href="/https://ironport.epfl.ch" class="help-btn">Help</a>
     <canvas class="snow"></canvas>
     <script>
         // Snowfall Animation
