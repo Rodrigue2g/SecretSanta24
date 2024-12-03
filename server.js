@@ -124,19 +124,12 @@ try {
     
             const users = await decryptData(encryptedData, encryptionKey, iv);
     
-            console.log('user key:', key);
-            console.log('');
-            for (const u of users) {
-                console.log('key:', u.key);
-            }
+
             const user = users.find(u => u.key === key);
-            console.log('user:', user)
 
             if (!user) {
                 return res.status(401).json({ error: "Invalid login key" });
             }
-
-            console.log('user ok')
 
             req.session['signed-in'] = true;
             req.session['user'] = user;
