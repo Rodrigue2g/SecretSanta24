@@ -91,12 +91,29 @@
             height: 100%;
             z-index: -1;
         }
+        .email-button {
+            margin-top: 20px;
+            background-color: #cb0000;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .email-button:hover {
+            background-color: #ff6969;
+        }
     </style>
 </head>
 <body>
     <h1>🎄 Début du SS 2024 🎅</h1>
     <div class="countdown" id="countdown">Loading...</div>
     <div class="message">Are you ready for the most wonderful time of the year? 🎁</div>
+    <div class="message">Send an email to your Target!</div>
+    <a href="/email" class="email-button">Email</a>
     <canvas class="snow"></canvas>
     <script>
         // Snowfall Animation
