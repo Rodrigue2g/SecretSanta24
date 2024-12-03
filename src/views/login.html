@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Secret Santa</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://raw.githubusercontent.com/Rodrigue2g/SecretSanta24/refs/heads/main/images/repas21.png') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+        }
+        .container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border: 5px solid #ff0000;
+            text-align: center;
+        }
+        h1 {
+            color: #ff0000;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: 90%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #ff0000;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        button {
+            background: #ff0000;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background: #cc0000;
+        }
+        .note {
+            color: #555;
+            font-size: 0.9em;
+            margin-top: 20px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.8em;
+            color: #777;
+        }
+        .footer a {
+            color: #ff0000;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎄 Secret Santa Login 🎅</h1>
+        <form id="login-form">
+            <label for="key">Enter Your Secret Key:</label>
+            <input type="text" id="key" name="key" placeholder="Your unique key" required>
+            <button type="submit">Login</button>
+        </form>
+        <p id="error-message" class="error-message">Invalid login key</p>
+    </div>
+
+    <script>
+        const form = document.getElementById('login-form');
+        const errorMessage = document.getElementById('error-message');
+
+        form.addEventListener('submit', async function (event) {
+            event.preventDefault(); // Prevent default form submission
+            
+            // Get the form data
+            const formData = new FormData(form);
+            const key = formData.get('key');
+
+            try {
+                // Send POST request
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ key })
+                });
+
+                if (!response.ok) {
+                    const data = await response.json();
+                    // Display the error message
+                    errorMessage.textContent = data.error || 'An error occurred';
+                    errorMessage.style.display = 'block';
+                    alert(errorMessage.textContent);
+                } else {
+                    // Redirect or handle success
+                    window.location.href = '/email';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                errorMessage.textContent = 'An unexpected error occurred. Please try again.';
+                errorMessage.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

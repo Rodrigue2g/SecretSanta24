@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Santa - Le chaos commence !</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f7f7f7;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background-color: #ff6f61;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            padding: 20px;
+        }
+        .content h2 {
+            font-size: 20px;
+            margin-top: 0;
+            color: #ff6f61;
+        }
+        .content ul {
+            list-style: none;
+            padding: 0;
+        }
+        .content ul li {
+            margin-bottom: 10px;
+        }
+        .content ul li::before {
+            content: "🎯";
+            margin-right: 10px;
+        }
+        .footer {
+            background-color: #f1f1f1; /* Light gray background */
+            color: #777; /* Subtle text color */
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            border-top: 2px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎅 Secret Santa 2024 🎅</h1>
+            <p><strong>Le chaos est sur le point de commencer !</strong></p>
+        </div>
+        <div class="content">
+            <p>Salut {{name}},</p>
+            <p>Tu sais déjà comment ça marche : une semaine pour semer des doutes, des rires et des surprises grâce à notre jeu de Secret Santa.</p>
+            <p>Maintenant, il est temps de passer aux choses sérieuses. Voici tes clés d’accès au <strong>portail de Noël</strong>, qui te permettra d'envoyer des messages anonymes à ta cible :</p>
+            <ul>
+                <li>Ton code <strong>SECRET :</strong> {{code}}</li>
+            </ul>
+            <p>Tu peux te connecter sur la <a href="https://sustu.org/email" target="_blank">plateforme</a> pour envoyer un message à ta target.</p>
+            <p>Ecris lui des poèmes, envoie des indices qui embrouillent, ou lâche des messages qui feront éclater de rire (ou crier) ta cible. La seule limite ? Ton imagination. Et peut-être les lois. 😉</p>
+            <p>Prêt(e) à semer le chaos ? Fais-toi plaisir et que les jeux commencent ! 🎁</p>
+            <p><strong>Martin & Rod</strong><br>
+            Directeurs des Opérations Prank SS24 🎅</p>
+        </div>
+        <div class="footer">
+            <p>Cet email fait partie de la mission Secret Santa 2024. 🎄</p>
+        </div>
+    </div>
+</body>
+</html>
