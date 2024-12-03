@@ -1,20 +1,23 @@
 ARG NODE_VERSION=lts
-# Make sure the platform is the same as the one defined in ECS service & cluster
+# Ensure apple silicon doesn't messup the build
 FROM --platform=linux/amd64 node:${NODE_VERSION}-alpine 
 
 ENV NODE_ENV production
 
-# The main application directory
 WORKDIR /usr/src
+
+# RUN mkdir -p /usr/src/artifacts && chown node:node /usr/src/artifacts
+# having the .gitkeep in /artifacts pretty much does the same
 
 # Copy package.json and package-lock.json
 COPY ./package*.json ./
 
-# Install dependencies
 RUN npm install
 
 # Not in docker file --> In the command that uses docker-compose
 USER node
+
+VOLUME ["/usr/src/artifacts"]
 
 # Copy the entire application directory into the container
 #COPY . .

@@ -29,6 +29,8 @@ def encrypt_json_file(input_file, output_file, password1, password2):
     # Derive encryption key
     key, salt = derive_key(password1, password2)
     
+    print(f"master key is: {key.hex()}.")
+
     # Encrypt using AES-GCM
     aesgcm = AESGCM(key)
     nonce = os.urandom(12)  # GCM requires a 12-byte nonce

@@ -195,4 +195,4 @@ node_modules/**
 
 *.tar
 
-#assignments.json
+assignments.json

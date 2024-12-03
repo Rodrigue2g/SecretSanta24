@@ -24,7 +24,7 @@ import fs from 'fs';
 import path from 'path';
 import { smtp, SmtpTemplates } from './src/smtp.js';
 import runPythonScript from './src/runpip.js';
-import { encryptData, decryptData, generateShortKey } from './src/crypto.js';
+import { encryptData, decryptData, generateShortKey, decryptJSONFile } from './src/crypto.js';
 
 
 const  ENABLE_HTTPS = process.env.ENABLE_HTTPS === 'true';
@@ -94,6 +94,10 @@ try {
     });
 
 
+    app.get('/', async function (req, res) {
+        return res.render('./countdown.html');
+    });
+
     app.get('/login', async function (req, res) {
         if (req.session['signed-in'] === true) {
             return res.redirect(302, '/email');
@@ -120,11 +124,20 @@ try {
     
             const users = await decryptData(encryptedData, encryptionKey, iv);
     
+            console.log('user key:', key);
+            console.log('');
+            for (const u of users) {
+                console.log('key:', u.key);
+            }
             const user = users.find(u => u.key === key);
+            console.log('user:', user)
+
             if (!user) {
                 return res.status(401).json({ error: "Invalid login key" });
             }
-    
+
+            console.log('user ok')
+
             req.session['signed-in'] = true;
             req.session['user'] = user;
         
@@ -216,8 +229,7 @@ try {
             return res.status(403).json({ error: "Key is missing" });
         }
         try {
-            const data = await fs.readFileSync(path.resolve("./assignments.json"), 'utf-8');
-            const results = JSON.parse(data);
+            const results = await decryptJSONFile('./encrypted_assignments.bin');
 
             if (!results || !Array.isArray(results)) {
                 throw new Error("Invalid results from Python script");
@@ -245,7 +257,7 @@ try {
                   
                 await smtp.sendMail({
                     template: SmtpTemplates.MessagingCode,
-                    subjectLine: "Code mail SS 2024",
+                    subjectLine: "Code d'accès Secret Santa 2024",
                     recipients: [email],
                     substitutions: {
                         name: name,
