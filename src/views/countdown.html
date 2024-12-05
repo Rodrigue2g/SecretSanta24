@@ -122,19 +122,58 @@
         .help-btn:hover {
             background-color: #cb0000;
         }
+        .button-container {
+            margin-top: 10px;
+            display: flex;
+            gap: 10px; /* Spacing between buttons */
+            justify-content: center;
+        }
+
+        .email-button, .profile-button {
+            display: inline-block;
+            background-color: #e74c3c;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            font-size: 16px;
+            font-family: 'Merriweather', serif;
+        }
+
+        .email-button:hover {
+            background-color: #c0392b;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .profile-button {
+            background-color: #3498db; /* Different color for the profile button */
+        }
+
+        .profile-button:hover {
+            background-color: #2980b9;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
     </style>
 </head>
 <body>
-    <h1>🎄 Début du SS 2024 🎅</h1>
-    <div class="countdown" id="countdown">Loading...</div>
-    <div class="message">Are you ready for the most wonderful time of the year? 🎁</div>
-    <div class="message">Send an email to your Target!</div>
-    <a href="/email" class="email-button">Email</a>
-
-    <div class="message">Can't find your code?</div>
-    <div class="message"><p>Just add <strong>ss24.sustu@gmail.com</strong> & <strong>sustu.ss24@gmail.com</strong> to your email safe-list</p></div>    
-    <a href="https://ironport.epfl.ch" class="help-btn" target="_blank" rel="noopener noreferrer">Help</a>
-    <canvas class="snow"></canvas>
+    <div class="header">
+        <h1>🎄 Début du SS 2024 🎅</h1>
+        <div class="countdown" id="countdown">Loading...</div>
+        <div class="message">Are you ready for the most wonderful time of the year? 🎁</div>
+        <div class="message">Send an email to your Target!</div>
+        <div class="button-container">
+            <a href="/email" class="email-button">Email</a>
+            <a href="/forum" class="profile-button">Forum</a>
+        </div>
+    
+        <div class="message">Can't find your code?</div>
+        <div class="message"><p>Just add <strong>ss24.sustu@gmail.com</strong> & <strong>sustu.ss24@gmail.com</strong> to your email safe-list</p></div>    
+        <a href="https://ironport.epfl.ch" class="help-btn" target="_blank" rel="noopener noreferrer">Help</a>
+        <canvas class="snow"></canvas>
+    </div>    
     <script>
         // Snowfall Animation
         var canvas = document.querySelector('.snow'),
@@ -228,7 +267,7 @@
     <script>
         // Countdown Timer
         const countdownElement = document.getElementById('countdown');
-        const targetDate = new Date('2024-12-06T00:00:00'); // Set your target date here
+        const targetDate = new Date('2024-12-06T00:00:00');
 
         function updateCountdown() {
             const now = new Date();

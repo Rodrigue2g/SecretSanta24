@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Post - Secret Santa</title>
+    <style>
+        body {
+            font-family: 'Merriweather', serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            background-image: url('https://example.com/snow-background.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: #333;
+        }
+        .form-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e74c3c;
+        }
+        h1 {
+            text-align: center;
+            color: #e74c3c;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+        input, textarea, button {
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        textarea {
+            resize: none;
+            height: 100px;
+        }
+        .file-input {
+            border: none;
+        }
+        .image-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .image-preview img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 5px;
+            border: 2px solid #ddd;
+        }
+        button {
+            background-color: #e74c3c;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Create a New Post</h1>
+        <form id="create-post-form" enctype="multipart/form-data">
+            <label for="title">Post Title</label>
+            <input type="text" id="title" name="title" placeholder="Enter a title..." required>
+
+            <label for="description">Description</label>
+            <textarea id="description" name="description" placeholder="Write something about your prank..." required></textarea>
+
+            <label for="images">Upload Images</label>
+            <input type="file" id="images" name="images" class="file-input" multiple accept="image/*" required>
+            <div class="image-preview" id="image-preview"></div>
+
+            <button type="submit">Create Post</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('create-post-form');
+        const imagesInput = document.getElementById('images');
+        const imagePreview = document.getElementById('image-preview');
+
+        // Preview uploaded images
+        imagesInput.addEventListener('change', () => {
+            imagePreview.innerHTML = ''; // Clear existing previews
+            const files = imagesInput.files;
+
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    imagePreview.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        // Submit form with AJAX
+        form.addEventListener('submit', async (e) => {
+            console.log('submit');
+
+            e.preventDefault();
+
+            const formData = new FormData(form);
+
+            try {
+                console.log(formData);
+                console.log(form);
+                const response = await fetch('/forum/create', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    alert('Post created successfully!');
+                    window.location.href = '/forum'; // Redirect to forum page
+                } else {
+                    const error = await response.json();
+                    alert(`Failed to create post: ${error.message}`);
+                }
+            } catch (err) {
+                console.error('Error submitting post:', err);
+                alert('An error occurred. Please try again.');
+            }
+        });
+    </script>
+</body>
+</html>

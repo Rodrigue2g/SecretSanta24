@@ -20,11 +20,8 @@ import session from 'express-session';
 import hbs from 'hbs';  // @AUDIT
 import useragent from 'express-useragent';
 import helmet from 'helmet';
-import fs from 'fs';
+import index from './src/routes/index.js';
 import path from 'path';
-import { smtp, SmtpTemplates } from './src/smtp.js';
-import runPythonScript from './src/runpip.js';
-import { encryptData, decryptData, generateShortKey, decryptJSONFile } from './src/crypto.js';
 
 
 const  ENABLE_HTTPS = process.env.ENABLE_HTTPS === 'true';
@@ -46,8 +43,12 @@ try {
     app.set('views', './src/views/');
     app.use(useragent.express());
     app.use(express.static('dist'));
+    app.use('/uploads', express.static(path.resolve('./uploads')));
 
     app.use(express.urlencoded({ extended: true }));
+
+    hbs.registerHelper('gt', (a, b) => a > b);
+    hbs.registerHelper('eq', (a, b) => a === b);
 
     /**
      * Parse incoming JSON data from the request body
@@ -88,232 +89,22 @@ try {
         return res.status(200).send('OK');
     });
 
-    app.get('/robots.txt', function (req, res) {
+    app.get('/robots.txt', function (req, res, next) {
         res.type('text/plain');
         res.send("User-agent: *\nDisallow: /");
     });
 
-
-    app.get('/', async function (req, res) {
+    app.get('/', async function (req, res, next) {
         return res.render('./countdown.html');
     });
 
-    app.get('/login', async function (req, res) {
-        if (req.session['signed-in'] === true) {
-            return res.redirect(302, '/email');
-        }
 
-        return res.render('./login.html');
-    });
-    
-    app.post('/login', async function (req, res) {
-        try {
-            const { key } = req.body;
+    /**
+     * Setup the app's routes
+     */
+    index(app);
 
-            if (!key) {
-                return res.status(400).json({ error: "Key is required" });
-            }
-    
-            const encryptedOutput = JSON.parse(await fs.readFileSync(path.resolve('./artifacts/db.txt'), 'utf-8'));
-            const { iv, encryptedData } = encryptedOutput;
-            const encryptionKey = process.env.ENCRYPTION_KEY;
-    
-            if (!encryptionKey || encryptionKey.length !== 64) {
-                return res.status(500).json({ error: "Server misconfiguration: ENCRYPTION_KEY is invalid" });
-            }
-    
-            const users = await decryptData(encryptedData, encryptionKey, iv);
-    
-
-            const user = users.find(u => u.key === key);
-
-            if (!user) {
-                return res.status(401).json({ error: "Invalid login key" });
-            }
-
-            req.session['signed-in'] = true;
-            req.session['user'] = user;
-        
-            return res.status(200).json({ message: "Login successful" });
-            // return res.redirect(302, '/email');
-        } catch (error) {
-            console.error("Error during login:", error);
-            return res.status(500).json({ error: "Internal server error" });
-        }
-    });
-    
-    app.get('/email', async function (req, res) {
-        try {
-            if (!req.session['signed-in']) {
-                return res.redirect(302, '/login');
-            }
-
-            const user = req.session['user'];
-            if (!user) {
-                return res.status(401).json({ error: "Session invalid. Please log in again." });
-            }
-    
-            return res.render('./email.html', {
-                title: 'Account',
-                user: user.target_name,
-            });
-        } catch (error) {
-            console.error("Error loading email page:", error);
-            return res.status(500).json({ error: "Internal server error" });
-        }
-    });
-    
-    app.post('/messaging/send-email', async function (req, res) {
-        try {
-            if (!req.session['signed-in']) {
-                return res.status(401).json({ error: "Unauthorized. Please log in first." });
-            }
-    
-            const user = req.session['user'];
-            if (!user) {
-                return res.status(401).json({ error: "Session invalid. Please log in again." });
-            }
-    
-            const { message } = req.body;
-            if (!message || message.trim() === "") {
-                return res.status(400).json({ error: "Message content is required" });
-            }
-    
-            await smtp.sendMail({
-                template: SmtpTemplates.EmailForTarget,
-                subjectLine: "Message de ton SS 🎅",
-                recipients: [user.target_email],
-                substitutions: {
-                    target_name: user.target_name,
-                    message: message,
-                },
-            });
-
-            return res.status(200).redirect('/success');
-            //return res.status(200).json({ message: "Email successfully sent to your target!" });
-        } catch (error) {
-            console.error("Error sending email:", error);
-            return res.status(500).json({ error: "Internal server error. Please try again later." });
-        }
-    });
-
-    app.get('/success', async function (req, res) {
-        try {
-            if (!req.session['signed-in']) {
-                return res.redirect(401, '/login');
-            }
-
-            const user = req.session['user'];
-            if (!user) {
-                return res.status(401).json({ error: "Session invalid. Please log in again." });
-            }
-    
-            return res.status(200).render('./success.html', {
-                img: `${user.target_name.toLowerCase()}.png`,
-            });
-        } catch (error) {
-            return res.status(500).json({ error: "Internal server error" });
-        }
-    });
-
-    app.get('/messaging/setup-code', async function (req, res) {
-        const key = req.query.key;
-        if (!key || key !== process.env.DRAW_LAUNCHING_SECRET) {
-            return res.status(403).json({ error: "Key is missing" });
-        }
-        try {
-            const results = await decryptJSONFile('./encrypted_assignments.bin');
-
-            if (!results || !Array.isArray(results)) {
-                throw new Error("Invalid results from Python script");
-            }    
-
-            const users = [];
-            const nameToEmailMap = new Map();
-            for (const result of results) {
-                nameToEmailMap.set(result.name, result.email);
-            }
-
-            for (const result of results) {
-                const { email, name, assigned_name } = result;
-            
-                const key = await generateShortKey();
-            
-                const targetEmail = nameToEmailMap.get(assigned_name);
-            
-                const user = { 
-                    key: key,
-                    target_name: assigned_name,
-                    target_email: targetEmail,
-                };
-                users.push(user);
-                  
-                await smtp.sendMail({
-                    template: SmtpTemplates.MessagingCode,
-                    subjectLine: "Code d'accès Secret Santa 2024",
-                    recipients: [email],
-                    substitutions: {
-                        name: name,
-                        code: key
-                    }
-                });
-            }
-
-            const encryptionKey = process.env.ENCRYPTION_KEY;
-            if (!encryptionKey || encryptionKey.length !== 64) {
-                throw new Error("Invalid ENCRYPTION_KEY in .env");
-            }
-            const { iv, encryptedData } = await encryptData(users, encryptionKey);
-            await fs.writeFileSync(path.resolve('./artifacts/db.txt'), JSON.stringify({ iv, encryptedData }));
-            
-            console.log('The encrypted data has been saved!');
-
-            return res.status(200).send('Codes envoyés par email');
-        } catch(e) {
-            console.log("An error has occured" + e);
-            return res.status(400).send("An error has occured" + e);
-        }        
-    });
-
-    app.get('/tirage', async function (req, res) {
-        const key = req.query.key;
-        if (!key || key !== process.env.DRAW_LAUNCHING_SECRET) {
-            return res.status(403).json({ error: "Key is missing" });
-        }
-        try {
-            const results = await runPythonScript("");
-            // const data = await fs.readFileSync(path.resolve("./assignments.json"), 'utf-8');
-            // const results = JSON.parse(data);
-
-            if (!results || !Array.isArray(results)) {
-                throw new Error("Invalid results from Python script");
-            }    
-            for (const result of results) {
-                const { email, name, img, nbr, assigned_name } = result;
-                await smtp.sendMail({
-                    template: SmtpTemplates.SecretSanta,
-                    subjectLine: "Tirage Secret Santa 2024",
-                    recipients: [email],
-                    substitutions: {
-                        name: name,
-                        recipient_name: assigned_name,
-                        recipient_image: img || "unknown",
-                        nbr: nbr || 1,
-                    }
-                });
-            }
-            return res.status(200).send('Tirage SS 2024 effectué');
-        } catch(e) {
-            console.log("An error has occured" + e);
-            return res.status(400).send("An error has occured" + e);
-        }        
-    });
-
-    app.get('/signout', (req, res) => {
-        req.session.destroy();
-        return res.redirect(307, '/');
-    });
-    
+   
     app.get('*', (req, res) => {
         return res.render('./404.html');
     });

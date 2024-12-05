@@ -77,6 +77,23 @@
         .footer a:hover {
             text-decoration: underline;
         }
+        .btn {
+            text-decoration: none;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            font-family: sans-serif;
+            color: #fff;
+            background-color: #000000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #353535;
+            /* color: #000000; */
+        }
     </style>
 </head>
 <body>
@@ -88,8 +105,9 @@
             <button type="submit">Login</button>
         </form>
         <p id="error-message" class="error-message">Invalid login key</p>
+        <p id="blank" class="blank"><br></p>
+        <a href="/" class="btn">Home</a>
     </div>
-
     <script>
         const form = document.getElementById('login-form');
         const errorMessage = document.getElementById('error-message');

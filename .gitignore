@@ -196,3 +196,5 @@ node_modules/**
 *.tar
 
 assignments.json
+
+*.json
