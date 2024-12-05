@@ -1,6 +1,7 @@
 ARG NODE_VERSION=lts
 # Ensure apple silicon doesn't messup the build
-FROM --platform=linux/amd64 node:${NODE_VERSION}-alpine 
+#FROM --platform=linux/amd64 node:${NODE_VERSION}-alpine 
+FROM node:18-bullseye-slim
 
 ENV NODE_ENV production
 
