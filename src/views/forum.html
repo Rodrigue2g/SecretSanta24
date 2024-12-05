@@ -186,6 +186,23 @@
             background-color: #c0392b;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
+        .home-button {
+            background-color: #3cb9e7;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: 'Merriweather', serif;
+            margin-top: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: #2b84c0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
     </style>
 </head>
 <body>
@@ -193,7 +210,9 @@
         <h1>🎄 Secret Santa 2024 🎄</h1>
         <p>Partagez les pranks qui vous sont arrivés afin que tout le monde puisse en profiter!</p>
         <div>
-            <button class="create-post-button" onclick="window.location.href='/'">🏠 Home</button>
+            <button class="home-button" onclick="window.location.href='/'">🏠 Home</button>
+        </div>
+        <div>
             <button class="create-post-button" onclick="window.location.href='/forum/create'">+ Create Post</button>
         </div>
     </div>
