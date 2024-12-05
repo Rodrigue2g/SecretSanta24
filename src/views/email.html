@@ -64,16 +64,34 @@
             margin-top: 20px;
             background-color: #cb0000;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 21px;
+            padding-top: 16px;
             font-size: 16px;
             border: none;
-            border-radius: 5px;
+            border-radius: 25px;
             cursor: pointer;
             text-decoration: none;
             display: inline-block;
         }
         .signout-button:hover {
             background-color: #ff6969;
+        }
+        .home-button {
+            background-color: #3cb9e7;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-family: 'Merriweather', serif;
+            margin-top: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .home-button:hover {
+            background-color: #2b84c0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
@@ -91,7 +109,10 @@
         <p class="note">
             Messages are anonymous and will be delivered to your target.
         </p>
-        <a href="/signout" class="signout-button">Sign Out</a>
+        <div>
+            <button class="home-button" onclick="window.location.href='/'">🏠 Home</button>
+            <a href="/signout" class="signout-button">Sign Out</a>
+        </div>
     </div>
 </body>
 </html>

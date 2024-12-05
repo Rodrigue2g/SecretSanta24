@@ -135,7 +135,8 @@
                     window.location.href = '/forum'; // Redirect to forum page
                 } else {
                     const error = await response.json();
-                    alert(`Failed to create post: ${error.message}`);
+                    alert(`Failed to create post: ${error.message}\n` + 
+                          'Please remeber to put your image in .png');
                 }
             } catch (err) {
                 console.error('Error submitting post:', err);
