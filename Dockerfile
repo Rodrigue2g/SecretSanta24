@@ -19,6 +19,7 @@ RUN npm install
 USER node
 
 VOLUME ["/usr/src/artifacts"]
+VOLUME ["/usr/src/uploads"]
 
 # Copy the entire application directory into the container
 #COPY . .
