@@ -112,9 +112,9 @@
 <body>
     <div class="container">
         <h1>🎄 Secret Santa Login 🎅</h1>
-        <form id="login-form">
+        <form id="login-form" autocomplete="on">
             <label for="key">Enter Your Secret Key:</label>
-            <input id="key" name="key" type="password" autocomplete="current-password" placeholder="Your unique key" required/>
+            <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Your unique key" required/>
             <button type="submit">Login</button>
         </form>
         <p id="error-message" class="error-message">Invalid login key</p>
@@ -130,7 +130,7 @@
             
             // Get the form data
             const formData = new FormData(form);
-            const key = formData.get('key');
+            const key = formData.get('password');
 
             try {
                 // Send POST request
