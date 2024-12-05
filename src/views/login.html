@@ -114,6 +114,7 @@
         <h1>🎄 Secret Santa Login 🎅</h1>
         <form id="login-form" autocomplete="on">
             <label for="key">Enter Your Secret Key:</label>
+            <input id="user-text-field" type="email" readonly autocomplete="username" style="display: none;"/>
             <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Your unique key" required/>
             <button type="submit">Login</button>
         </form>
@@ -152,6 +153,7 @@
                     // Redirect or handle success
                     const data = await response.json();
                     console.log('Response:', data);
+                    form.submit();
                     window.location.href = data.redirect || '/forum';
                 }
             } catch (error) {
