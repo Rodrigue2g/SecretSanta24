@@ -42,19 +42,6 @@
             border-radius: 5px;
             font-size: 1rem;
         }
-        button {
-            background: #ff0000;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background: #cc0000;
-        }
         .note {
             color: #555;
             font-size: 0.9em;
@@ -93,26 +80,80 @@
             background-color: #2b84c0;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
+        button {
+            background: #ff0000;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background: #cc0000;
+        }
+        .target-btn {
+            background: #ff0000;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .target-btn:hover {
+            background: #cc0000;
+        }
+        .ss-btn {
+            background: #000000;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .ss-btn:hover {
+            background: #5b5b5b;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎄 Write a Message to Your Target 🎅</h1>
-        <form action="/messaging/send-email" method="POST">
-            <input type="hidden" name="recipient_email" value="{{user.target_email}}">
+        <h1>🎄 Write a Message to Your Target or to your SS 🎅</h1>
+        <form id="messageForm" method="POST">
+            <!-- <input type="hidden" name="recipient_email" value="{{user.target_email}}"> -->
             <div class="form-group">
                 <label for="message">Your Message:</label>
                 <textarea id="message" name="message" placeholder="Write your message here..." rows="5" required></textarea>
             </div>
-            <button type="submit">Send Email</button>
+            <div class="button-group">
+                <button type="button" class="target-btn" onclick="confirmAndSubmit('/messaging/send/target', 'Est-tu sûr de vouloir envoyer un message à ta cible?')">Send Email to target</button>
+                <button type="button" class="ss-btn" onclick="confirmAndSubmit('/messaging/send/ss', 'Est-tu sûr de vouloir envoyer un message à ton SS?')">Send Email to SS</button>
+            </div>
         </form>
         <p class="note">
-            Messages are anonymous and will be delivered to your target.
+            Messages are anonymous and will be delivered to your target or to your SS.
         </p>
         <div>
             <button class="home-button" onclick="window.location.href='/'">🏠 Home</button>
             <a href="/signout" class="signout-button">Sign Out</a>
         </div>
     </div>
+
+    <script>
+        function confirmAndSubmit(actionUrl, confirmationMessage) {
+            if (confirm(confirmationMessage)) {
+                const form = document.getElementById('messageForm');
+                form.action = actionUrl;
+                form.submit();
+            } else {
+                // alert('Action canceled. Please choose the correct button.');
+            }
+        }
+    </script>
 </body>
 </html>

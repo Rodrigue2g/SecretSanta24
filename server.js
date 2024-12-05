@@ -70,13 +70,13 @@ try {
         secret: process.env.SESSION_SECRET || 'secret',
         saveUninitialized: true,
         resave: true,
-        proxy: true,
+        proxy: true, //https
         rolling: false,
         unset: 'keep',
         key: "myacinfo",
         cookie:{
-            httpOnly: true,
-            secure: true,
+            httpOnly: true, //https
+            secure: true, //https
             sameSite: 'none',
             maxAge: 24 * 60 * 60 * 1000, // - 24h
             //signed: true,

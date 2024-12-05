@@ -66,8 +66,10 @@ const index = (app) => {
      * @Messaging
      */
     app.get('/email', messagingHandler.emailPage);
-    app.post('/messaging/send-email', messagingHandler.sendEmail);
+    app.post('/messaging/send/target', messagingHandler.sendMessageToTarget);
+    app.post('/messaging/send/ss', messagingHandler.sendMessageToSS);
     app.get('/success', messagingHandler.successPage);
+    app.get('/success/no-pic', messagingHandler.successPageWithoutPic);
 
     /**
      * @Forum

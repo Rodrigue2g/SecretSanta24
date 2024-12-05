@@ -43,7 +43,8 @@ function isASCII(str) {
 export const SmtpTemplates = {
   SecretSanta: "email.handlebars",
   MessagingCode: "code.handlebars",
-  EmailForTarget: "target.handlebars"
+  EmailForTarget: "target.handlebars",
+  EmailForSS: "secretSanta.handlebars"
 }
 
 export const SmtpHost = {
