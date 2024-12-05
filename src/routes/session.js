@@ -8,11 +8,12 @@ export default class SessionHandler {
     constructor() {}
 
     login = async (req, res, next) => {
-        const redirect = req.query?.continue || '/forum';
-        req.redirect = redirect
+        const redirect = req.query?.continue || '/forum';        
         if (req.session['signed-in'] === true) {
             return res.redirect(302, redirect);
         }
+        req.session.redirect = redirect
+
         return res.render('./login.html');
     };
 
@@ -44,8 +45,10 @@ export default class SessionHandler {
             req.session['signed-in'] = true;
             req.session['user'] = user;
 
-            const redirect =  req.redirect || '/forum';
+            const redirect =  req.session.redirect || '/forum';
         
+            delete req.session.redirect;
+            
             return res.status(200).json({ message: "Login successful", redirect: redirect });
             // return res.redirect(302, '/email');
         } catch (error) {
