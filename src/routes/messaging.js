@@ -8,7 +8,7 @@ export default class MessagingHandler {
     emailPage = async (req, res, next) => {
         try {
             if (!req.session['signed-in']) {
-                return res.redirect(302, '/login');
+                return res.redirect(302, '/login?continue=/email');
             }
 
             const user = req.session['user'];

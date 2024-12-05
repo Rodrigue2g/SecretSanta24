@@ -10,7 +10,7 @@ export default class ForumHandler {
     mainPage = async (req, res, next) => { // GET
         try {
             if (!req.session['signed-in']) {
-                return res.redirect(302, '/login');
+                return res.redirect(302, '/login?continue=/forum');
             }
             
             const userId = req.session.user?.key || '0000';
