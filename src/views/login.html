@@ -138,7 +138,7 @@
                 } else {
                     // Redirect or handle success
                     console.log('redirect')
-                    window.location.href = '/email';
+                    window.location.href = response.redirect || '/forum';
                 }
             } catch (error) {
                 console.error('Error:', error);
