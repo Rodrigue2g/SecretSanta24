@@ -137,8 +137,9 @@
                     alert(errorMessage.textContent);
                 } else {
                     // Redirect or handle success
-                    console.log('redirect')
-                    window.location.href = response.redirect || '/forum';
+                    const data = await response.json();
+                    console.log('Response:', data);
+                    window.location.href = data.redirect || '/forum';
                 }
             } catch (error) {
                 console.error('Error:', error);
