@@ -6,8 +6,6 @@ import sys
 people = [
     {"name": "Martin", "image": "martin.png", "nbr": 4, "mail": "martin.moureau@epfl.ch"},
     {"name": "Rodrigue", "image": "rodrigue.png", "nbr": 2, "mail": "rodrigue.deguerre@epfl.ch"},
-]
-"""
     {"name": "Martin", "image": "martin.png", "nbr": 4, "mail": "martin.moureau@epfl.ch"},
     {"name": "Rodrigue", "image": "rodrigue.png", "nbr": 2, "mail": "rodrigue.deguerre@epfl.ch"},
     {"name": "César", "image": "cesar.png", "nbr": 3, "mail": "cesar.camus-emschwiller@epfl.ch"},
@@ -19,7 +17,7 @@ people = [
     {"name": "Thomas", "image": "thomas.png", "nbr": 3, "mail": "thomas.chetaille@epfl.ch"},
     {"name": "Blaise", "image": "blaise.png", "nbr": 1, "mail": "blaise.depauw@epfl.ch"},
     {"name": "Prune", "image": "prune.png", "nbr": 2, "mail": "prune.ollier@epfl.ch"},
-    {"name": "Elvire", "image": "elvire.png", "nbr": 3, "mail": "elvire.declermont@babelec.ch"},
+    {"name": "Elvire", "image": "elvire.png", "nbr": 3, "mail": "elvire.declermont@balelec.ch"},
     {"name": "Lila", "image": "lila.png", "nbr": 1, "mail": "lila.meflah@epfl.ch"},
     {"name": "Amaury", "image": "amaury.png", "nbr": 3, "mail": "amaury.pailloux@epfl.ch"},
     {"name": "Ainhoa", "image": "ainhoa.png", "nbr": 4, "mail": "ainhoa.vilanova@epfl.ch"},
@@ -32,9 +30,12 @@ people = [
     {"name": "Paul", "image": "paul.png", "nbr": 3, "mail": "paul.gregory@epfl.ch"},
     {"name": "Youssef", "image": "youssef.png", "nbr": 3, "mail": "youssef.kacem@epfl.ch"},
     {"name": "Dalia", "image": "dalia.png", "nbr": 2, "mail": "dalia.ghosn@epfl.ch"},
-    {"name": "Thea", "image": "thea.png", "nbr": 3, "mail": "thea.gluck@babelec.ch"},
+    {"name": "Thea", "image": "thea.png", "nbr": 3, "mail": "thea.gluck@balelec.ch"},
     {"name": "Zac", "image": "zac.png", "nbr": 2, "mail": "zacharie.bourlard@epfl.ch"},
     {"name": "Anna", "image": "anna.png", "nbr": 4, "mail": "anna.vandermersch@balelec.ch"}
+]
+"""
+
 """
 
 def tirageSS():
