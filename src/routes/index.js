@@ -75,10 +75,12 @@ const index = (app) => {
      * @Forum
      */
     app.get('/forum', forumHandler.mainPage);
+    app.get('/stalkers/forum', forumHandler.mainPageForStalkers);
     app.post('/forum/posts/:id/like', forumHandler.likePost);
     app.post('/forum/posts/:id/comment', forumHandler.addComment);
-    app.post('/forum/create', upload.array('images', 10), forumHandler.addPost);
     app.get('/forum/create', forumHandler.createPostPage);
+    app.post('/forum/create', upload.array('images', 10), forumHandler.addPost);
+    app.post('/forum/anonym/create', upload.array('images', 10), forumHandler.addAnonymPost);
 
 
 

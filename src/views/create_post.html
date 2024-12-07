@@ -73,6 +73,16 @@
         button:hover {
             background-color: #c0392b;
         }
+
+        .anonym {
+            background-color: #2e2e2e;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .anonym:hover {
+            background-color: #39495d;
+        }
     </style>
 </head>
 <body>
@@ -89,7 +99,8 @@
             <input type="file" id="images" name="images" class="file-input" multiple accept="image/*" required>
             <div class="image-preview" id="image-preview"></div>
 
-            <button type="submit">Create Post</button>
+            <button type="button" id="create-new-post">Create Post</button>
+            <button type="button" class="anonym" id="create-new-anonymous-post">Create anonym Post</button>
         </form>
     </div>
 
@@ -114,35 +125,37 @@
             });
         });
 
-        // Submit form with AJAX
-        form.addEventListener('submit', async (e) => {
-            console.log('submit');
-
+        document.getElementById('create-new-post').addEventListener('click', async (e) => {
             e.preventDefault();
+            await sendForm('/forum/create');
+        });
 
+        document.getElementById('create-new-anonymous-post').addEventListener('click', async (e) => {
+            e.preventDefault();
+            await sendForm('/forum/anonym/create');
+        });
+
+        async function sendForm(endpoint) {
             const formData = new FormData(form);
-
             try {
-                console.log(formData);
-                console.log(form);
-                const response = await fetch('/forum/create', {
+                const response = await fetch(endpoint, {
                     method: 'POST',
                     body: formData
                 });
 
                 if (response.ok) {
                     alert('Post created successfully!');
-                    window.location.href = '/forum'; // Redirect to forum page
+                    window.location.href = '/forum';
                 } else {
                     const error = await response.json();
                     alert(`Failed to create post: ${error.message}\n` + 
-                          'Please remeber to put your image in .png');
+                        'Please remember to use images in .png format.');
                 }
             } catch (err) {
                 console.error('Error submitting post:', err);
                 alert('An error occurred. Please try again.');
             }
-        });
+        }
     </script>
 </body>
 </html>

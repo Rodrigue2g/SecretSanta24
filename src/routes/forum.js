@@ -42,7 +42,38 @@ export default class ForumHandler {
             return res.status(500).json({ error: "Internal server error" });
         }
     };
+
+
+    mainPageForStalkers = async (req, res, next) => { // GET
+        const key = req.query.key;
+        if (!key || key !== process.env.STALKERS_SECRET) {
+            return res.status(403).json({ error: "Key is missing" });
+        }
+        try {
+            let list_of_posts = [];
+            try {
+                const fileContent = await fs.readFileSync(path.resolve('./artifacts/forum_posts.json'), 'utf-8');
+                list_of_posts = JSON.parse(fileContent);
+            } catch (error) {
+                if (error.code !== 'ENOENT') {
+                    throw error;
+                }
+            }
+
+            // Add a "liked" property to each post based on whether the user has liked it
+            const postsWithLikeStatus = list_of_posts.map(post => ({
+                ...post,
+                liked: null
+            }));
     
+            return res.render('./forum.html', {
+                posts: postsWithLikeStatus,
+            });
+        } catch (error) {
+            console.error("Error loading forum page:", error);
+            return res.status(500).json({ error: "Internal server error" });
+        }
+    };
 
     detailPage = async (req, res, next) => {}; // Not needed?
 
@@ -90,6 +121,66 @@ export default class ForumHandler {
             }
 
             const victimName = await getUserName(req.session?.user);
+
+            const newPost = {
+                id: Date.now().toString(),
+                title: title.trim(),
+                description: description.trim(),
+                victim: victimName, 
+                images: imagePaths,
+                likes: 0,
+                likedBy: [],
+                comments: []
+            };
+
+            posts.push(newPost);
+            await fs.writeFileSync(path.resolve('./artifacts/forum_posts.json'), JSON.stringify(posts, null, 4), 'utf-8');
+
+            console.log('New Post Created:', newPost);
+    
+            res.status(201).json({ message: 'Post created successfully', post: newPost });
+        } catch (error) {
+            console.error('Error creating post:', error);
+            res.status(500).json({ message: 'Failed to create post' });
+        }
+    };
+
+    addAnonymPost = async (req, res, next) => { // POST
+        try {
+            if (!req.session['signed-in']) {
+                return res.redirect(302, '/login');
+            }
+
+            const { title, description } = req.body;
+            const imagePaths = req.files.map(file => `/uploads/${file.filename}`);
+    
+            if (!title || !description || !imagePaths.length) {
+                return res.status(400).json({ message: 'All fields are required!' });
+            }
+    
+            if (!title || title.trim() === '') {
+                return res.status(400).json({ message: 'Title is required.' });
+            }
+    
+            if (!description || description.trim() === '') {
+                return res.status(400).json({ message: 'Description is required.' });
+            }
+    
+            let posts = [];
+            try {
+                const fileContent = await fs.readFileSync(path.resolve('./artifacts/forum_posts.json'), 'utf-8');
+                posts = JSON.parse(fileContent);
+            } catch (error) {
+                if (error.code !== 'ENOENT') {
+                    throw error;
+                }
+            }
+
+            if (!Array.isArray(posts)) {
+                posts = [];
+            }
+
+            const victimName = await 'Nabot inccognito'; //getUserName(req.session?.user);
 
             const newPost = {
                 id: Date.now().toString(),
