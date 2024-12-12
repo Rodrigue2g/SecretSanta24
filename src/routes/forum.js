@@ -33,7 +33,10 @@ export default class ForumHandler {
                 ...post,
                 liked: post.likedBy?.includes(userId) || false
             }));
-    
+            
+            // Add the most recent posts at the top
+            postsWithLikeStatus.reverse();
+            
             return res.render('./forum.html', {
                 posts: postsWithLikeStatus,
             });
@@ -65,6 +68,9 @@ export default class ForumHandler {
                 ...post,
                 liked: null
             }));
+
+            // Add the most recent posts at the top
+            postsWithLikeStatus.reverse();
     
             return res.render('./forum.html', {
                 posts: postsWithLikeStatus,
@@ -137,6 +143,8 @@ export default class ForumHandler {
             await fs.writeFileSync(path.resolve('./artifacts/forum_posts.json'), JSON.stringify(posts, null, 4), 'utf-8');
 
             console.log('New Post Created:', newPost);
+
+            //notify by email?
     
             res.status(201).json({ message: 'Post created successfully', post: newPost });
         } catch (error) {
@@ -197,6 +205,8 @@ export default class ForumHandler {
             await fs.writeFileSync(path.resolve('./artifacts/forum_posts.json'), JSON.stringify(posts, null, 4), 'utf-8');
 
             console.log('New Post Created:', newPost);
+
+            //notify by email?
     
             res.status(201).json({ message: 'Post created successfully', post: newPost });
         } catch (error) {

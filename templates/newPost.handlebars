@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Post Notification - Merry Christmas!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f7f7f7;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background-color: #d32f2f; /* Festive red */
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            padding: 20px;
+        }
+        .content h2 {
+            font-size: 20px;
+            margin-top: 0;
+            color: #d32f2f;
+        }
+        .content p {
+            margin: 10px 0;
+        }
+        .post-details {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .post-details h3 {
+            margin-top: 0;
+            color: #d32f2f;
+        }
+        .footer {
+            background-color: #f1f1f1;
+            color: #777;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            border-top: 2px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎄 New Post Alert! 🎄</h1>
+        </div>
+        <div class="content">
+            <h2>Hello, {{user_name}}!</h2>
+            <p>Il y a un nouveau post sur le forum... Va donc y jeter un oeil:</p>
+            <div class="post-details">
+                <h3>{{post_title}}</h3>
+                <p>{{post_description}}</p>
+                <p><strong>By:</strong> {{post_author}}</p>
+            </div>
+            <p>Check it out and join the discussion! Click the link below:</p>
+            <p>
+                <a href="{{post_link}}" style="color: #d32f2f; text-decoration: none; font-weight: bold;">View the Post 🎅</a>
+            </p>
+            <p>Happy holidays, and thank you for being a part of our community!</p>
+        </div>
+        <div class="footer">
+            <p>You're receiving this email because you're a valued member of our forum. 🎄</p>
+        </div>
+    </div>
+</body>
+</html>
