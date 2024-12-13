@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chasse au Trésor - Alerte Rouge</title>
+    <style>
+        body {
+            background-color: #ff0000;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            background-image: url('snowflakes.png'); /* Subtle snowflake pattern */
+            background-size: cover;
+        }
+
+        h1 {
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px black;
+            margin-bottom: 20px;
+            color: #ffcccb;
+        }
+
+        .alert-message {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .map {
+            max-width: 80%;
+            max-height: 40vh;
+            margin-bottom: 20px;
+            border: 4px solid white;
+            box-shadow: 0 0 10px black;
+            border-radius: 10px;
+        }
+
+        .hint {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
+            display: inline-block;
+            border: 2px dashed #ffcccb;
+        }
+
+        .input-container {
+            margin-top: 20px;
+        }
+
+        .code-input {
+            font-size: 1.5rem;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            box-shadow: 0 0 10px #ffcccb;
+        }
+
+        .submit-button {
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            margin-top: 10px;
+            background-color: white;
+            color: #ff0000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 0 10px #ffcccb;
+        }
+
+        .submit-button:hover {
+            background-color: #ffdddd;
+        }
+
+        .snowfall {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background-image: url('falling-snow.gif'); /* Subtle falling snow effect */
+            background-repeat: repeat;
+            background-size: cover;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="snowfall"></div>
+    <div class="container">
+        <h1>ALERTE ROUGE : Trouvez le Code de Noël ! 🎄</h1>
+        <p class="alert-message">Prochaine zone mise à jour dans <span id="timer">30:00</span></p>
+        <img src="current_zone.png" alt="Zone géographique actuelle" class="map">
+        <p class="hint" id="current-hint">Indice : <span>Aucune information pour l'instant...</span></p>
+        <div class="input-container">
+            <input type="text" class="code-input" placeholder="Entrez le code ici">
+            <button class="submit-button">Soumettre</button>
+        </div>
+    </div>
+
+    <script>
+        // Timer Logic
+        const timerElement = document.getElementById("timer");
+        let timeLeft = 30 * 60; // 30 minutes in seconds
+
+        function updateTimer() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerElement.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+            if (timeLeft > 0) {
+                timeLeft--;
+            } else {
+                clearInterval(timerInterval);
+                timerElement.textContent = "Mise à jour en cours...";
+            }
+        }
+
+        const timerInterval = setInterval(updateTimer, 1000);
+    </script>
+</body>
+</html>
