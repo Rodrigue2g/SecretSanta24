@@ -22,4 +22,4 @@ Once the server is running, just do a GET request at `localhost:8080/tirage?key=
 
 To setup the messaging codes, you can do a GET at `localhost:8080//messaging/setup-code?key=<your_secret_key>`
 
-Make sure you perform these request only once as each new one will ovewrite any previous data. 
+Make sure you perform these request only once as they will ovewrite any previous data. 
